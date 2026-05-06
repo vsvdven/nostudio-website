@@ -122,8 +122,10 @@
             height: 2px;
             background: var(--butter);
             z-index: 10;
-            width: 0%;
-            transition: width 0.08s linear;
+            width: 100%;
+            transform: scaleX(0);
+            transform-origin: left center;
+            will-change: transform;
         }
 
         /* scroll hint */
@@ -1269,7 +1271,7 @@ window.addEventListener('scroll', () => {
     }
 
     // UI
-    progressEl.style.width = (smoothPct * 100) + '%';
+    progressEl.style.transform = 'scaleX(' + smoothPct + ')';
 
     if (smoothPct > 0.04) hintEl.classList.add('gone');
     else                  hintEl.classList.remove('gone');
