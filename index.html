@@ -34,6 +34,14 @@
             overflow-x: hidden;
         }
 
+        /* Bebas Neue renders heavier with subpixel AA — use grayscale AA for display headings */
+        .ticker-track span, .manifesto-hed, .section-hed, .s-name,
+        .statement-hed, .pricing-price, .ba-hed, .p-num, .p-name,
+        .cta-hed, .footer-brand {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         /* ─────────────────────────────────────────
            NAV
         ───────────────────────────────────────── */
@@ -206,13 +214,17 @@
         ───────────────────────────────────────── */
         .ticker-wrap {
             background: var(--butter);
-            padding: 14px 0;
             overflow: hidden;
+            position: relative;
+            height: 50px;
         }
 
         .ticker-track {
             display: flex;
             width: max-content;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
             will-change: transform;
         }
 
@@ -988,21 +1000,7 @@
 
 <!-- ── TICKER ── -->
 <div class="ticker-wrap">
-    <div class="ticker-track" id="tickerTrack">
-        <span>Product Visuals</span><span class="dot">·</span>
-        <span>Brand Campaigns</span><span class="dot">·</span>
-        <span>Social Assets</span><span class="dot">·</span>
-        <span>AI-Powered</span><span class="dot">·</span>
-        <span>Content Systems</span><span class="dot">·</span>
-        <span>Visual Identity</span><span class="dot">·</span>
-        <!-- duplicate for seamless loop -->
-        <span>Product Visuals</span><span class="dot">·</span>
-        <span>Brand Campaigns</span><span class="dot">·</span>
-        <span>Social Assets</span><span class="dot">·</span>
-        <span>AI-Powered</span><span class="dot">·</span>
-        <span>Content Systems</span><span class="dot">·</span>
-        <span>Visual Identity</span><span class="dot">·</span>
-    </div>
+    <div class="ticker-track" id="tickerTrack"><span>Product Visuals</span><span class="dot">·</span><span>Brand Campaigns</span><span class="dot">·</span><span>Social Assets</span><span class="dot">·</span><span>AI-Powered</span><span class="dot">·</span><span>Content Systems</span><span class="dot">·</span><span>Visual Identity</span><span class="dot">·</span></div>
 </div>
 
 <!-- ── SERVICES ── -->
@@ -1271,22 +1269,42 @@ window.addEventListener('scroll', () => {
 
 // ── Ticker ───────────────────────────────────────────────────────────────────
 (function () {
-    const track = document.getElementById('tickerTrack');
-    let x = 0;
-    let half = 0;
+    const wrap   = document.querySelector('.ticker-wrap');
+    const trackA = document.getElementById('tickerTrack');
+    let started  = false;
 
-    function measure() { half = track.scrollWidth / 2; }
-    document.fonts.ready.then(measure);
-    window.addEventListener('resize', measure);
-    measure();
+    function init() {
+        if (started) return;
+        started = true;
+        // One RAF frame so fonts are painted and layout is final
+        requestAnimationFrame(function () {
+            const setW = Math.ceil(trackA.getBoundingClientRect().width);
+            if (!setW) return;
 
-    (function loop() {
-        requestAnimationFrame(loop);
-        if (!half) return;
-        x -= 0.6;
-        if (-x >= half) x += half;
-        track.style.transform = 'translateX(' + x + 'px)';
-    })();
+            // Clone B, park it off-screen right before appending
+            const trackB = trackA.cloneNode(true);
+            trackB.removeAttribute('id');
+            trackB.style.transform = 'translateX(' + setW + 'px) translateY(-50%)';
+            wrap.appendChild(trackB);
+
+            let xA = 0;
+            let xB = setW;
+
+            (function loop() {
+                requestAnimationFrame(loop);
+                xA -= 0.6;
+                xB -= 0.6;
+                if (xA + setW <= 0) xA = xB + setW;
+                if (xB + setW <= 0) xB = xA + setW;
+                trackA.style.transform = 'translateX(' + xA + 'px) translateY(-50%)';
+                trackB.style.transform = 'translateX(' + xB + 'px) translateY(-50%)';
+            })();
+        });
+    }
+
+    // Wait for Bebas Neue specifically; fallback after 1.5 s if fonts blocked
+    document.fonts.load('22px "Bebas Neue"').then(init).catch(init);
+    setTimeout(init, 1500);
 })();
 
 // ── Scroll reveal ────────────────────────────────────────────────────────────
