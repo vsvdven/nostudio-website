@@ -1,0 +1,14 @@
+# Original source files (not needed for deployment)
+Animation studio.mp4
+Animation studio trimmed.mp4
+after new.png
+After.png
+Before.png
+examplepictures/
+
+# Working files
+Colours.png
+Pricing.png
+inspo.jpg
+Screenshot*.png
+*.DS_Store
