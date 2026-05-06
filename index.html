@@ -32,6 +32,9 @@
             color: var(--white);
             font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-synthesis: none;
         }
 
         /* ─────────────────────────────────────────
@@ -213,7 +216,7 @@
         .ticker-track {
             display: flex;
             width: max-content;
-            animation: ticker 22s linear infinite;
+            will-change: transform;
         }
 
         .ticker-track span {
@@ -228,11 +231,6 @@
         .ticker-track span.dot {
             padding: 0;
             opacity: 0.3;
-        }
-
-        @keyframes ticker {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
         }
 
         /* ─────────────────────────────────────────
@@ -587,17 +585,6 @@
             display: block;
         }
 
-        .marquee-tile-label {
-            position: absolute;
-            bottom: 12px;
-            left: 14px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 9px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.7);
-            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-        }
 
         @keyframes marqueeScroll {
             0%   { transform: translateX(0); }
@@ -1064,25 +1051,25 @@
     </div>
     <div class="marquee-outer" id="examples">
         <div class="marquee-track">
-            <div class="marquee-tile"><img src="img/openart-d290a5ed27ea4e7fb1a393dc46943588_raw_1777079720192_fe88c4c4.jpg" alt="" decoding="async"><span class="marquee-tile-label">Fragrance</span></div>
-            <div class="marquee-tile"><img src="img/openart-9be1e174f94b44c4a9641b34fbbaf4f0_raw_1777080180429_318090ba.jpg" alt="" decoding="async"><span class="marquee-tile-label">Skincare</span></div>
-            <div class="marquee-tile"><img src="img/openart-f9409fe048f34affb073f9fa22b4c8a3_raw_1777080760064_a215a51d.jpg" alt="" decoding="async"><span class="marquee-tile-label">Jewelry</span></div>
-            <div class="marquee-tile"><img src="img/openart-29f4f36e3c21427a90756f10ba850be8_raw_1777081355785_3713dcdd.jpg" alt="" decoding="async"><span class="marquee-tile-label">Fashion</span></div>
-            <div class="marquee-tile"><img src="img/openart-ab5d8595f1a645f494f458642165bf7d_raw_1777283007694_58e7e681.jpg" alt="" decoding="async"><span class="marquee-tile-label">Food</span></div>
-            <div class="marquee-tile"><img src="img/openart-4ece697b8cae4df5a1e1b4d2a3641119_raw_1778060476542_c8d9146a.jpg" alt="" decoding="async"><span class="marquee-tile-label">Drinks</span></div>
-            <div class="marquee-tile"><img src="img/openart-786d6f2146304d7ebb422a6db0f515d0_raw_1778060913223_5b21c306.jpg" alt="" decoding="async"><span class="marquee-tile-label">Candles</span></div>
-            <div class="marquee-tile"><img src="img/openart-4k-V2_00003__1778060968614_b80b452e.jpg" alt="" decoding="async"><span class="marquee-tile-label">Supplements</span></div>
-            <div class="marquee-tile"><img src="img/openart-aa8b965c21754e6db704d6bba437cff9_raw_1778061306649_be949e5b.jpg" alt="" decoding="async"><span class="marquee-tile-label">Accessories</span></div>
+            <div class="marquee-tile"><img src="img/openart-d290a5ed27ea4e7fb1a393dc46943588_raw_1777079720192_fe88c4c4.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-9be1e174f94b44c4a9641b34fbbaf4f0_raw_1777080180429_318090ba.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-f9409fe048f34affb073f9fa22b4c8a3_raw_1777080760064_a215a51d.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-29f4f36e3c21427a90756f10ba850be8_raw_1777081355785_3713dcdd.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-ab5d8595f1a645f494f458642165bf7d_raw_1777283007694_58e7e681.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-4ece697b8cae4df5a1e1b4d2a3641119_raw_1778060476542_c8d9146a.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-786d6f2146304d7ebb422a6db0f515d0_raw_1778060913223_5b21c306.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-4k-V2_00003__1778060968614_b80b452e.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-aa8b965c21754e6db704d6bba437cff9_raw_1778061306649_be949e5b.jpg" alt="" decoding="async"></div>
             <!-- duplicate for seamless loop -->
-            <div class="marquee-tile"><img src="img/openart-d290a5ed27ea4e7fb1a393dc46943588_raw_1777079720192_fe88c4c4.jpg" alt="" decoding="async"><span class="marquee-tile-label">Fragrance</span></div>
-            <div class="marquee-tile"><img src="img/openart-9be1e174f94b44c4a9641b34fbbaf4f0_raw_1777080180429_318090ba.jpg" alt="" decoding="async"><span class="marquee-tile-label">Skincare</span></div>
-            <div class="marquee-tile"><img src="img/openart-f9409fe048f34affb073f9fa22b4c8a3_raw_1777080760064_a215a51d.jpg" alt="" decoding="async"><span class="marquee-tile-label">Jewelry</span></div>
-            <div class="marquee-tile"><img src="img/openart-29f4f36e3c21427a90756f10ba850be8_raw_1777081355785_3713dcdd.jpg" alt="" decoding="async"><span class="marquee-tile-label">Fashion</span></div>
-            <div class="marquee-tile"><img src="img/openart-ab5d8595f1a645f494f458642165bf7d_raw_1777283007694_58e7e681.jpg" alt="" decoding="async"><span class="marquee-tile-label">Food</span></div>
-            <div class="marquee-tile"><img src="img/openart-4ece697b8cae4df5a1e1b4d2a3641119_raw_1778060476542_c8d9146a.jpg" alt="" decoding="async"><span class="marquee-tile-label">Drinks</span></div>
-            <div class="marquee-tile"><img src="img/openart-786d6f2146304d7ebb422a6db0f515d0_raw_1778060913223_5b21c306.jpg" alt="" decoding="async"><span class="marquee-tile-label">Candles</span></div>
-            <div class="marquee-tile"><img src="img/openart-4k-V2_00003__1778060968614_b80b452e.jpg" alt="" decoding="async"><span class="marquee-tile-label">Supplements</span></div>
-            <div class="marquee-tile"><img src="img/openart-aa8b965c21754e6db704d6bba437cff9_raw_1778061306649_be949e5b.jpg" alt="" decoding="async"><span class="marquee-tile-label">Accessories</span></div>
+            <div class="marquee-tile"><img src="img/openart-d290a5ed27ea4e7fb1a393dc46943588_raw_1777079720192_fe88c4c4.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-9be1e174f94b44c4a9641b34fbbaf4f0_raw_1777080180429_318090ba.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-f9409fe048f34affb073f9fa22b4c8a3_raw_1777080760064_a215a51d.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-29f4f36e3c21427a90756f10ba850be8_raw_1777081355785_3713dcdd.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-ab5d8595f1a645f494f458642165bf7d_raw_1777283007694_58e7e681.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-4ece697b8cae4df5a1e1b4d2a3641119_raw_1778060476542_c8d9146a.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-786d6f2146304d7ebb422a6db0f515d0_raw_1778060913223_5b21c306.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-4k-V2_00003__1778060968614_b80b452e.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/openart-aa8b965c21754e6db704d6bba437cff9_raw_1778061306649_be949e5b.jpg" alt="" decoding="async"></div>
         </div>
     </div>
 
@@ -1283,6 +1270,26 @@ window.addEventListener('scroll', () => {
         brandShown = false;
         brandEl.classList.remove('visible');
     }
+})();
+
+// ── Ticker ───────────────────────────────────────────────────────────────────
+(function () {
+    const track = document.getElementById('tickerTrack');
+    let x = 0;
+    let half = 0;
+
+    function measure() { half = track.scrollWidth / 2; }
+    document.fonts.ready.then(measure);
+    window.addEventListener('resize', measure);
+    measure();
+
+    (function loop() {
+        requestAnimationFrame(loop);
+        if (!half) return;
+        x -= 0.6;
+        if (-x >= half) x += half;
+        track.style.transform = 'translateX(' + x + 'px)';
+    })();
 })();
 
 // ── Scroll reveal ────────────────────────────────────────────────────────────
