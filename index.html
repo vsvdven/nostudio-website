@@ -597,7 +597,7 @@
 
         @keyframes marqueeScroll {
             0%   { transform: translateX(0); }
-            100% { transform: translateX(calc(-9 * 274px)); }
+            100% { transform: translateX(calc(-8 * 274px)); }
         }
 
         /* ── Before / After (in manifesto, cream bg) ── */
@@ -914,6 +914,12 @@
         }
         .footer-links a:hover { color: var(--white); }
 
+        .footer-phone {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
         /* ─────────────────────────────────────────
            SCROLL REVEAL
         ───────────────────────────────────────── */
@@ -936,6 +942,176 @@
         .rv[data-d="4"] { transition-delay: 0.5s; }
 
         /* ─────────────────────────────────────────
+           CONTACT FORM
+        ───────────────────────────────────────── */
+        .contact-form {
+            margin-top: 56px;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--pink);
+        }
+
+        .form-error {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 11px;
+            color: var(--pink);
+            margin-top: 14px;
+            text-align: center;
+            display: none;
+        }
+        .form-error.visible { display: block; }
+
+        .form-input.field-error,
+        .form-textarea.field-error {
+            border-color: var(--pink);
+            background: rgba(201, 163, 176, 0.07);
+        }
+
+        .checkbox-group.field-error input[type="radio"] {
+            border-color: var(--pink);
+        }
+
+        .form-input,
+        .form-textarea {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            padding: 13px 16px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            color: var(--white);
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(255,255,255,0.22);
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--butter);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 96px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 24px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            cursor: pointer;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.65);
+            user-select: none;
+        }
+
+        .checkbox-label input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid rgba(255,255,255,0.22);
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .checkbox-label input[type="radio"]:checked {
+            background: var(--butter);
+            border-color: var(--butter);
+        }
+
+        .checkbox-label input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--bg);
+        }
+
+        .form-submit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-top: 32px;
+            padding: 18px 40px;
+            background: var(--butter);
+            color: var(--bg);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            border-radius: 100px;
+            opacity: 0.28;
+            transition: background 0.25s ease, transform 0.2s ease, color 0.25s ease, opacity 0.25s ease;
+        }
+
+        .form-submit.ready {
+            opacity: 1;
+        }
+
+        .form-submit.ready:hover {
+            background: var(--wine);
+            color: var(--cream);
+            transform: scale(1.02);
+        }
+
+        .contact-success {
+            display: none;
+            margin-top: 56px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 17px;
+            color: var(--butter);
+            letter-spacing: 0.03em;
+        }
+
+        /* ─────────────────────────────────────────
            RESPONSIVE
         ───────────────────────────────────────── */
         @media (max-width: 900px) {
@@ -955,6 +1131,8 @@
             .footer           { flex-direction: column; gap: 20px; text-align: center; padding: 36px 28px; }
             .ba-cards         { grid-template-columns: 1fr; max-width: 100%; }
             .ba-arrow         { transform: rotate(90deg); padding: 20px 0; }
+            .form-row         { grid-template-columns: 1fr; }
+            .checkbox-group   { flex-direction: column; gap: 14px; }
         }
     </style>
 </head>
@@ -1050,20 +1228,18 @@
             <div class="marquee-tile"><img src="img/openart-9be1e174f94b44c4a9641b34fbbaf4f0_raw_1777080180429_318090ba.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-f9409fe048f34affb073f9fa22b4c8a3_raw_1777080760064_a215a51d.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-29f4f36e3c21427a90756f10ba850be8_raw_1777081355785_3713dcdd.jpg" alt="" decoding="async"></div>
-            <div class="marquee-tile"><img src="img/openart-ab5d8595f1a645f494f458642165bf7d_raw_1777283007694_58e7e681.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-4ece697b8cae4df5a1e1b4d2a3641119_raw_1778060476542_c8d9146a.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-786d6f2146304d7ebb422a6db0f515d0_raw_1778060913223_5b21c306.jpg" alt="" decoding="async"></div>
-            <div class="marquee-tile"><img src="img/openart-4k-V2_00003__1778060968614_b80b452e.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/New beer picture.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-aa8b965c21754e6db704d6bba437cff9_raw_1778061306649_be949e5b.jpg" alt="" decoding="async"></div>
             <!-- duplicate for seamless loop -->
             <div class="marquee-tile"><img src="img/openart-d290a5ed27ea4e7fb1a393dc46943588_raw_1777079720192_fe88c4c4.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-9be1e174f94b44c4a9641b34fbbaf4f0_raw_1777080180429_318090ba.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-f9409fe048f34affb073f9fa22b4c8a3_raw_1777080760064_a215a51d.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-29f4f36e3c21427a90756f10ba850be8_raw_1777081355785_3713dcdd.jpg" alt="" decoding="async"></div>
-            <div class="marquee-tile"><img src="img/openart-ab5d8595f1a645f494f458642165bf7d_raw_1777283007694_58e7e681.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-4ece697b8cae4df5a1e1b4d2a3641119_raw_1778060476542_c8d9146a.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-786d6f2146304d7ebb422a6db0f515d0_raw_1778060913223_5b21c306.jpg" alt="" decoding="async"></div>
-            <div class="marquee-tile"><img src="img/openart-4k-V2_00003__1778060968614_b80b452e.jpg" alt="" decoding="async"></div>
+            <div class="marquee-tile"><img src="img/New beer picture.jpg" alt="" decoding="async"></div>
             <div class="marquee-tile"><img src="img/openart-aa8b965c21754e6db704d6bba437cff9_raw_1778061306649_be949e5b.jpg" alt="" decoding="async"></div>
         </div>
     </div>
@@ -1189,24 +1365,54 @@
 <section class="section-cta" id="contact">
     <span class="cta-tag rv">Let's work together</span>
     <h2 class="cta-hed rv">Ready to<br>Stand Out?</h2>
-    <a class="cta-btn rv" data-d="2" href="mailto:hello@nostudio.com">
-        Start a Project
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 7H13M13 7L7.5 1.5M13 7L7.5 12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </a>
+    <form class="contact-form rv" data-d="2" id="contactForm" novalidate>
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label" for="cfName">Name</label>
+                <input class="form-input" type="text" id="cfName" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="cfCompany">Company</label>
+                <input class="form-input" type="text" id="cfCompany" name="company" placeholder="Your brand" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="cfEmail">Email</label>
+            <input class="form-input" type="email" id="cfEmail" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+            <label class="form-label">What do you need?</label>
+            <div class="checkbox-group">
+                <label class="checkbox-label"><input type="radio" name="need" value="Images"> Images</label>
+                <label class="checkbox-label"><input type="radio" name="need" value="Videos"> Videos</label>
+                <label class="checkbox-label"><input type="radio" name="need" value="Both"> Both</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="cfMessage">What do you have in mind?</label>
+            <textarea class="form-textarea" id="cfMessage" name="message" placeholder="What's your product, what's the vibe?" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send →</button>
+        <p class="form-error" id="formError"></p>
+    </form>
+    <p class="contact-success" id="contactSuccess">Got it — I'll be in touch soon.</p>
 </section>
 
 <!-- ── SVG FILTER DEFS ── -->
 
 <!-- ── FOOTER ── -->
 <footer class="footer">
-    <div class="footer-brand">nōstudio</div>
-    <span class="footer-copy">© 2025 nōstudio. All rights reserved.</span>
+<span class="footer-copy">© 2025 nōstudio. All rights reserved.</span>
     <ul class="footer-links">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">TikTok</a></li>
-        <li><a href="#">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/no.studioo/" target="_blank" rel="noopener">Instagram</a></li>
+        <li>
+            <a href="tel:+32478928458" class="footer-phone">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.47 11.47 0 003.58.57 1 1 0 011 1V21a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.58a1 1 0 01-.24 1.01l-2.21 2.2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                +32 478 92 84 58
+            </a>
+        </li>
     </ul>
 </footer>
 
@@ -1226,6 +1432,7 @@ let brandShown = false;
 video.load();
 video.addEventListener('loadedmetadata', () => { videoReady = true; });
 video.addEventListener('canplay',        () => { videoReady = true; });
+video.addEventListener('error',          () => { videoReady = true; });
 
 // Scroll only updates the target — no DOM/video touching here
 window.addEventListener('scroll', () => {
@@ -1238,6 +1445,7 @@ window.addEventListener('scroll', () => {
 // Video is encoded with all I-frames so every seek (forward or backward) is instant.
 (function loop() {
     requestAnimationFrame(loop);
+    if (!videoReady && video.readyState >= 1) videoReady = true;
     if (!videoReady || !video.duration) return;
 
     smoothPct += (targetPct - smoothPct) * 0.14;
@@ -1313,6 +1521,98 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
 
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// ── Contact form ─────────────────────────────────────────────────────────────
+(function () {
+    var form        = document.getElementById('contactForm');
+    var success     = document.getElementById('contactSuccess');
+    var btn         = form.querySelector('.form-submit');
+    var formError   = document.getElementById('formError');
+    var elName      = form.querySelector('#cfName');
+    var elCompany   = form.querySelector('#cfCompany');
+    var elEmail     = form.querySelector('#cfEmail');
+    var elMessage   = form.querySelector('#cfMessage');
+    var radioGroup  = form.querySelector('.checkbox-group');
+
+    function getMissing() {
+        var missing = [];
+        if (!elName.value.trim())    missing.push('name');
+        if (!elCompany.value.trim()) missing.push('company');
+        var email = elEmail.value.trim();
+        if (!email)                                              missing.push('email');
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))    missing.push('valid email');
+        if (!form.querySelectorAll('input[name="need"]:checked').length) missing.push('visual type');
+        if (!elMessage.value.trim()) missing.push('message');
+        return missing;
+    }
+
+    function applyErrorHighlights() {
+        elName.classList.toggle('field-error',    !elName.value.trim());
+        elCompany.classList.toggle('field-error', !elCompany.value.trim());
+        var email = elEmail.value.trim();
+        elEmail.classList.toggle('field-error', !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+        elMessage.classList.toggle('field-error', !elMessage.value.trim());
+        radioGroup.classList.toggle('field-error', !form.querySelectorAll('input[name="need"]:checked').length);
+    }
+
+    function refresh() {
+        btn.classList.toggle('ready', getMissing().length === 0);
+    }
+
+    // Clear highlight on each field as the user fixes it
+    [elName, elCompany, elEmail, elMessage].forEach(function (el) {
+        el.addEventListener('input', function () {
+            el.classList.remove('field-error');
+            refresh();
+            if (getMissing().length === 0) formError.classList.remove('visible');
+        });
+    });
+    form.querySelectorAll('input[name="need"]').forEach(function (el) {
+        el.addEventListener('change', function () {
+            radioGroup.classList.remove('field-error');
+            refresh();
+            if (getMissing().length === 0) formError.classList.remove('visible');
+        });
+    });
+
+    btn.addEventListener('mouseenter', function () {
+        if (btn.classList.contains('ready')) return;
+        var missing = getMissing();
+        applyErrorHighlights();
+        formError.textContent = 'Still missing: ' + missing.join(' · ');
+        formError.classList.add('visible');
+    });
+
+    btn.addEventListener('mouseleave', function () {
+        formError.classList.remove('visible');
+        [elName, elCompany, elEmail, elMessage].forEach(function (el) { el.classList.remove('field-error'); });
+        radioGroup.classList.remove('field-error');
+    });
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (getMissing().length) return;
+        formError.classList.remove('visible');
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        fetch('https://formspree.io/f/maqvlvvr', {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+        }).then(function (res) {
+            if (res.ok) {
+                form.style.display = 'none';
+                success.style.display = 'block';
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Send →';
+            }
+        }).catch(function () {
+            btn.disabled = false;
+            btn.textContent = 'Send →';
+        });
+    });
+})();
 
 // ── Magnifying lens on after image ───────────────────────────────────────────
 (function () {
