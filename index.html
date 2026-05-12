@@ -31,9 +31,20 @@
             background: var(--bg);
             color: var(--white);
             font-family: 'Space Grotesk', sans-serif;
-            overflow-x: hidden;
-            overscroll-behavior-y: none;
+            overflow: hidden;
+            height: 100dvh;
         }
+
+        #pageScroll {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            height: 100dvh;
+            overscroll-behavior: none;
+            scroll-snap-type: none;
+            position: relative;
+            scrollbar-width: none;
+        }
+        #pageScroll::-webkit-scrollbar { display: none; }
 
         /* Bebas Neue renders heavier with subpixel AA — use grayscale AA for display headings */
         .ticker-track span, .manifesto-hed, .section-hed, .s-name,
@@ -1139,6 +1150,7 @@
     </style>
 </head>
 <body>
+<div id="pageScroll">
 
 <!-- NAV -->
 <nav class="nav">
@@ -1417,9 +1429,11 @@
         </li>
     </ul>
 </footer>
+</div><!-- #pageScroll -->
 
 <script>
 // ── Scroll-linked video ──────────────────────────────────────────────────────
+const scroller   = document.getElementById('pageScroll');
 const video      = document.getElementById('heroVideo');
 const videoSec   = document.querySelector('.video-section');
 const brandEl    = document.getElementById('brandReveal');
@@ -1441,9 +1455,9 @@ video.addEventListener('canplay',        () => { videoReady = true; });
 video.addEventListener('error',          () => { videoReady = true; });
 
 // Scroll only updates the target — no DOM/video touching here
-window.addEventListener('scroll', () => {
-    const secH   = videoSec.offsetHeight - window.innerHeight;
-    const scrolled = Math.max(0, window.scrollY - secTop);
+scroller.addEventListener('scroll', () => {
+    const secH   = videoSec.offsetHeight - scroller.clientHeight;
+    const scrolled = Math.max(0, scroller.scrollTop - secTop);
     targetPct = Math.min(1, Math.max(0, scrolled / secH));
 }, { passive: true });
 
@@ -1524,9 +1538,29 @@ window.addEventListener('scroll', () => {
 // ── Scroll reveal ────────────────────────────────────────────────────────────
 const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-}, { threshold: 0.12, rootMargin: '0px 0px -32px 0px' });
+}, { threshold: 0.12, rootMargin: '0px 0px -32px 0px', root: scroller });
 
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// ── Nav anchor links ─────────────────────────────────────────────────────────
+// Manually drive anchor scrolling so it targets #pageScroll, not the body
+document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+        var href = a.getAttribute('href');
+        if (href === '#') {
+            e.preventDefault();
+            scroller.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+        var target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        scroller.scrollTo({
+            top: target.getBoundingClientRect().top + scroller.scrollTop,
+            behavior: 'smooth'
+        });
+    });
+});
 
 // ── Contact form ─────────────────────────────────────────────────────────────
 (function () {
