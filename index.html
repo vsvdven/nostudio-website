@@ -32,6 +32,7 @@
             color: var(--white);
             font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
+            overscroll-behavior-y: none;
         }
 
         /* Bebas Neue renders heavier with subpixel AA — use grayscale AA for display headings */
@@ -98,6 +99,7 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            height: 100dvh;
             width: 100vw;
             overflow: hidden;
         }
@@ -1429,6 +1431,10 @@ let smoothPct  = 0;   // lerped display position
 let videoReady = false;
 let brandShown = false;
 
+// Cache offsetTop so the scroll handler never forces a layout flush
+let secTop = videoSec.offsetTop;
+window.addEventListener('resize', () => { secTop = videoSec.offsetTop; }, { passive: true });
+
 video.load();
 video.addEventListener('loadedmetadata', () => { videoReady = true; });
 video.addEventListener('canplay',        () => { videoReady = true; });
@@ -1437,7 +1443,7 @@ video.addEventListener('error',          () => { videoReady = true; });
 // Scroll only updates the target — no DOM/video touching here
 window.addEventListener('scroll', () => {
     const secH   = videoSec.offsetHeight - window.innerHeight;
-    const scrolled = Math.max(0, -videoSec.getBoundingClientRect().top);
+    const scrolled = Math.max(0, window.scrollY - secTop);
     targetPct = Math.min(1, Math.max(0, scrolled / secH));
 }, { passive: true });
 
